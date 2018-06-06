@@ -9,7 +9,7 @@ public interface IBaseView<S, F, D> {
 
     void onStartLoadData();
 
-    boolean onLoadDataSuccess(S data);
+    boolean onLoadDataSuccess(boolean isRefresh,S data);
 
     boolean onLoadDataFail(F data);
 
