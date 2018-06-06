@@ -67,7 +67,7 @@ public class MainActivity extends BaseActivity<MainPresenter, List<CoinModel>, F
             protected void convert(ViewHolder holder, CoinModel coinModel, int position) {
                 holder.setText(R.id.tvTitile, coinModel.getSymbol());
                 holder.setText(R.id.tvValue, "$" + coinModel.getQuotes().getUSD().getPrice());
-                holder.setText(R.id.tvDate, "update:" + DateUtils.getCustomDate(coinModel.getLast_updated()));
+                holder.setText(R.id.tvDate, "update:" + DateUtils.getCustomDate(coinModel.getLast_updated())+"  24h change percent:"+coinModel.getQuotes().getUSD().getPercent_change_24h()+"%");
                 holder.setText(R.id.tvBpValueUnit, "rank:" + coinModel.getRank());
             }
         };
@@ -107,6 +107,8 @@ public class MainActivity extends BaseActivity<MainPresenter, List<CoinModel>, F
         tvReload.setVisibility(View.VISIBLE);
         rvList.setVisibility(View.INVISIBLE);
         pbLoading.setVisibility(View.INVISIBLE);
+        refreshLayout.finishRefresh(false);
+        refreshLayout.finishLoadMore(false);//传入false表示加载失败
         return false;
     }
 
@@ -131,16 +133,9 @@ public class MainActivity extends BaseActivity<MainPresenter, List<CoinModel>, F
         return new WeakReference(this);
     }
 
-
     @OnClick(R.id.tv_reload)
     public void onViewClicked() {
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+        mPresenter.reLoadCoinData();
     }
     ///////////////////////////////默認初始化內容/////////////////////////////////////////
 }
