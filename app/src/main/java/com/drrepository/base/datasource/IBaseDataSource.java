@@ -2,7 +2,7 @@ package com.drrepository.base.datasource;
 
 import android.support.annotation.NonNull;
 
-import java.util.HashMap;
+import com.drrepository.base.datasource.param.IBaseParams;
 
 public interface IBaseDataSource<T,P extends IBaseParams> {
 

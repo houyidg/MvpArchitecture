@@ -1,8 +1,6 @@
 package com.drrepository.base.datasource.param;
 
 
-import com.drrepository.base.datasource.IBaseParams;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
