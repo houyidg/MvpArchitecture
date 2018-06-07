@@ -33,7 +33,6 @@ public class CoinRepository implements IBaseRepository<CoinModel, RequestParams,
         return instance;
     }
 
-
     @Override
     public void getDatasByRemote(RequestParams params, @NonNull ILoadDatasCallback<CoinModel> callback) {
         remoteCoinDataSource.getDatas(params, callback);
