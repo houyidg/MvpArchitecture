@@ -33,6 +33,7 @@ public class MyApplication extends Application {
             handler.post(runnable);
         }
     }
+    
     static {
         //设置全局的Header构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
