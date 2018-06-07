@@ -1,12 +1,14 @@
 package com.drrepository.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.drrepository.base.presenter.IBasePresenter;
 
+
 //,S, F, D extends WeakReference
-public abstract class BaseActivity<P extends IBasePresenter, S, F, D > extends AppCompatActivity implements IBaseView<S, F, D> {
+public abstract class BaseActivity<P extends IBasePresenter, S, F, D > extends AppCompatActivity implements IBaseView<P,S, F, D> {
     protected P mPresenter;
 
     @Override
@@ -32,14 +34,17 @@ public abstract class BaseActivity<P extends IBasePresenter, S, F, D > extends A
         super.onDestroy();
     }
 
-    private P getPresenter() {
+    public P getPresenter() {
         if (mPresenter != null) {
             return mPresenter;
         }
         return getInitPresenter();
     }
 
-    public abstract int getLayoutId();
+    @Override
+    public Context getContext() {
+        return getApplicationContext();
+    }
 
-    public abstract P getInitPresenter();
+    public abstract int getLayoutId();
 }

@@ -1,4 +1,4 @@
-package com.drrepository.base.datasource;
+package com.drrepository.base.datasource.callback;
 
 public interface ILoadDataCallback<T> {
 

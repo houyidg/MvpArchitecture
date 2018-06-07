@@ -3,13 +3,13 @@ package com.drrepository.main.datasource.local;
 import android.support.annotation.NonNull;
 
 import com.drrepository.base.datasource.IBaseDataSource;
-import com.drrepository.base.datasource.ILoadDataCallback;
-import com.drrepository.base.datasource.ILoadDatasCallback;
+import com.drrepository.base.datasource.callback.ILoadDataCallback;
+import com.drrepository.base.datasource.callback.ILoadDatasCallback;
 import com.drrepository.base.datasource.param.DbParams;
 import com.drrepository.main.model.CoinModel;
 
 
-public class LocalDialogDataSource implements IBaseDataSource<CoinModel,DbParams>  {
+public class LocalCoinDataSource implements IBaseDataSource<CoinModel,DbParams>  {
 
     @Override
     public void getDatas(DbParams params, @NonNull ILoadDatasCallback<CoinModel> callback) {

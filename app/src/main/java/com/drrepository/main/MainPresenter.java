@@ -2,9 +2,10 @@ package com.drrepository.main;
 
 import android.os.Bundle;
 
-import com.drrepository.base.datasource.ILoadDatasCallback;
+import com.drrepository.base.datasource.IBaseRepository;
+import com.drrepository.base.datasource.callback.ILoadDatasCallback;
 import com.drrepository.base.presenter.BasePresenter;
-import com.drrepository.main.datasource.DialogRepository;
+import com.drrepository.main.datasource.CoinRepository;
 import com.drrepository.base.datasource.param.RequestParams;
 import com.drrepository.main.model.CoinModel;
 
@@ -15,14 +16,14 @@ import java.util.List;
  * presenter驱动ui执行
  */
 public class MainPresenter extends BasePresenter<MainActivity> {
-    DialogRepository mDialogRepository;
+    IBaseRepository mDialogRepository;
     MainActivity view;
     String url = "https://api.coinmarketcap.com/v2/ticker/";
     int startIndex = 1;
     int pageCount = 10;
     //https://api.coinmarketcap.com/v2/ticker/?limit=10
     public void onCreate(Bundle savedInstanceState) {
-        mDialogRepository = DialogRepository.getInstance();
+        mDialogRepository = CoinRepository.getInstance();
         view = getView();
         view.onInitView();
         startIndex = 1;
@@ -33,6 +34,7 @@ public class MainPresenter extends BasePresenter<MainActivity> {
         startIndex = 1;
         loadMoreCoinData();
     }
+
     public void loadMoreCoinData(){
         RequestParams requestParams = new RequestParams(url, RequestParams.TYPE.GET);
         requestParams.addUrlParameter("limit", pageCount+"");
@@ -48,8 +50,10 @@ public class MainPresenter extends BasePresenter<MainActivity> {
             }
             @Override
             public void onDataNotAvailable() {
-                if (isViewAttached())
-                    view.onLoadDataFail(null);
+                if (isViewAttached()){
+                    boolean isRefresh = startIndex==1;
+                    view.onLoadDataFail(isRefresh,null);
+                }
             }
         });
     }

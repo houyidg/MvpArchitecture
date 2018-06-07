@@ -1,6 +1,5 @@
 package com.drrepository.main.datasource.remote;
 
-import android.app.Application;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -8,8 +7,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.drrepository.base.MyApplication;
 import com.drrepository.base.datasource.IBaseDataSource;
-import com.drrepository.base.datasource.ILoadDataCallback;
-import com.drrepository.base.datasource.ILoadDatasCallback;
+import com.drrepository.base.datasource.callback.ILoadDataCallback;
+import com.drrepository.base.datasource.callback.ILoadDatasCallback;
 import com.drrepository.base.datasource.net.OKHttpUtil;
 import com.drrepository.base.datasource.param.RequestParams;
 import com.drrepository.main.model.CoinModel;
@@ -28,12 +27,12 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class RemoteDialogDataSource implements IBaseDataSource<CoinModel, RequestParams<String>> {
+public class RemoteCoinDataSource implements IBaseDataSource<CoinModel, RequestParams<String>> {
     OKHttpUtil okHttpUtil;
     OkHttpClient requestQueue;
-    private static String TAG = "RemoteDialogDataSource";
+    private static String TAG = "RemoteCoinDataSource";
 
-    public RemoteDialogDataSource() {
+    public RemoteCoinDataSource() {
         okHttpUtil = OKHttpUtil.init();
         requestQueue = okHttpUtil.getRequestQueue();
     }

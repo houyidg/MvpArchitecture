@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.drrepository.R;
 import com.drrepository.base.BaseActivity;
+import com.drrepository.base.IBaseView;
 import com.drrepository.main.model.CoinModel;
 import com.drrepository.main.model.FailModel;
 import com.drrepository.main.util.DateUtils;
@@ -46,8 +47,7 @@ public class MainActivity extends BaseActivity<MainPresenter, List<CoinModel>, F
     @Override
     public void onInitView() {
         ButterKnife.bind(this);
-        pbLoading.setVisibility(View.VISIBLE);
-        rvList.setVisibility(View.INVISIBLE);
+        showSelectView(R.id.pb_loading);
         rvList.setLayoutManager(new LinearLayoutManager(getContext()));
         rvList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -71,26 +71,13 @@ public class MainActivity extends BaseActivity<MainPresenter, List<CoinModel>, F
                 holder.setText(R.id.tvBpValueUnit, "rank:" + coinModel.getRank());
             }
         };
-
         rvList.setAdapter(commonAdapter);
     }
 
-    @Override
-    public void onStartLoadData() {
-
-    }
 
     @Override
     public boolean onLoadDataSuccess(boolean isRefresh, List<CoinModel> data) {
-        if (pbLoading.getVisibility() == View.VISIBLE) {
-            pbLoading.setVisibility(View.INVISIBLE);
-        }
-        if (tvReload.getVisibility() == View.VISIBLE) {
-            tvReload.setVisibility(View.INVISIBLE);
-        }
-        if (pbLoading.getVisibility() != View.VISIBLE) {
-            rvList.setVisibility(View.VISIBLE);
-        }
+        showSelectView(R.id.refreshLayout);
         if (isRefresh) {
             dataList.clear();
             refreshLayout.finishRefresh();
@@ -102,11 +89,22 @@ public class MainActivity extends BaseActivity<MainPresenter, List<CoinModel>, F
         return true;
     }
 
+    /**
+     * id
+     * @param id
+     */
+    public void showSelectView(int id){
+        tvReload.setVisibility(id==tvReload.getId()?View.VISIBLE:View.GONE);
+        refreshLayout.setVisibility(id==refreshLayout.getId()?View.VISIBLE:View.GONE);
+        pbLoading.setVisibility(id==pbLoading.getId()?View.VISIBLE:View.GONE);
+    }
+
     @Override
-    public boolean onLoadDataFail(FailModel data) {
-        tvReload.setVisibility(View.VISIBLE);
-        rvList.setVisibility(View.INVISIBLE);
-        pbLoading.setVisibility(View.INVISIBLE);
+    public boolean onLoadDataFail(boolean isRefresh,FailModel data) {
+        if(isRefresh){
+            showSelectView(R.id.tv_reload);
+        }
+
         refreshLayout.finishRefresh(false);
         refreshLayout.finishLoadMore(false);//传入false表示加载失败
         return false;
@@ -124,17 +122,13 @@ public class MainActivity extends BaseActivity<MainPresenter, List<CoinModel>, F
     }
 
     @Override
-    public Context getContext() {
-        return getApplicationContext();
-    }
-
-    @Override
     public WeakReference<MainActivity> getCurrentContext() {
         return new WeakReference(this);
     }
 
     @OnClick(R.id.tv_reload)
     public void onViewClicked() {
+        showSelectView(R.id.pb_loading);
         mPresenter.reLoadCoinData();
     }
     ///////////////////////////////默認初始化內容/////////////////////////////////////////
