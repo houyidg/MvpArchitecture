@@ -1,7 +1,7 @@
 package com.drrepository.base.presenter;
 
 
-import com.drrepository.base.IBaseView;
+import com.drrepository.base.view.IBaseView;
 
 public abstract class BasePresenter<V extends IBaseView>  implements  IBasePresenter<V> {
     public V mvpView;

@@ -1,7 +1,5 @@
 package com.drrepository.main;
 
-import android.content.Context;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,8 +7,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.drrepository.R;
-import com.drrepository.base.BaseActivity;
-import com.drrepository.base.IBaseView;
+import com.drrepository.base.view.BaseActivity;
 import com.drrepository.main.model.CoinModel;
 import com.drrepository.main.model.FailModel;
 import com.drrepository.main.util.DateUtils;

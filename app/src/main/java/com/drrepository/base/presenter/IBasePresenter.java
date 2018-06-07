@@ -2,7 +2,7 @@ package com.drrepository.base.presenter;
 
 import android.os.Bundle;
 
-import com.drrepository.base.IBaseView;
+import com.drrepository.base.view.IBaseView;
 
 public interface IBasePresenter<V extends IBaseView> {
     void attachView(V mvpView);
