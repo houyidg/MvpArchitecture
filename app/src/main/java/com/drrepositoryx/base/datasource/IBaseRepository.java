@@ -12,5 +12,7 @@ public interface IBaseRepository<T, P1 extends IBaseParams, P2 extends IBasePara
 
     void getDatasByLocal(P2 params, @NonNull ILoadDatasCallback<T> callback);
 
+    <T> T getDataSource(Class<T> clazz) throws InstantiationException, IllegalAccessException;
+
     void destroyAll();
 }

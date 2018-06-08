@@ -2,6 +2,7 @@ package com.drrepositoryx.main.datasource;
 
 import android.support.annotation.NonNull;
 
+import com.drrepositoryx.base.datasource.DataSourceManager;
 import com.drrepositoryx.base.datasource.IBaseDataSource;
 import com.drrepositoryx.base.datasource.IBaseRepository;
 import com.drrepositoryx.base.datasource.callback.ILoadDatasCallback;
@@ -16,8 +17,14 @@ public class CoinRepository implements IBaseRepository<CoinModel, RequestParams,
     private IBaseDataSource remoteCoinDataSource;
 
     public CoinRepository() {
-        localCoinDataSource = new LocalCoinDataSource();
-        remoteCoinDataSource = new RemoteCoinDataSource();
+        try {
+            localCoinDataSource = getDataSource(LocalCoinDataSource.class);
+            remoteCoinDataSource = getDataSource(RemoteCoinDataSource.class);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -28,6 +35,11 @@ public class CoinRepository implements IBaseRepository<CoinModel, RequestParams,
     @Override
     public void getDatasByLocal(DbParams params, @NonNull ILoadDatasCallback<CoinModel> callback) {
         localCoinDataSource.getDatas(params, callback);
+    }
+
+    @Override
+    public <T> T getDataSource(Class<T> clazz) throws InstantiationException, IllegalAccessException {
+        return (T) DataSourceManager.getInstance().getAssignDataSource(clazz);
     }
 
     @Override

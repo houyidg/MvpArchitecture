@@ -35,7 +35,7 @@ public abstract class BasePresenter<V extends IBaseView>  implements IBasePresen
     }
 
     @Override
-    public <T extends IBaseRepository> T getRepository(Class<T> clazz) throws InstantiationException, IllegalAccessException {
+    public <T extends IBaseRepository> T getAssignRepository(Class<T> clazz) throws InstantiationException, IllegalAccessException {
         return (T) RepositoryManager.getInstance().getAssignRepository(clazz);
     }
 }

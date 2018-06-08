@@ -20,5 +20,5 @@ public interface IBasePresenter<V extends IBaseView> {
 
     IBaseView getBaseView();
 
-    <T extends IBaseRepository>T getRepository(Class<T> clazz) throws InstantiationException, IllegalAccessException;
+    <T extends IBaseRepository>T getAssignRepository(Class<T> clazz) throws InstantiationException, IllegalAccessException;
 }

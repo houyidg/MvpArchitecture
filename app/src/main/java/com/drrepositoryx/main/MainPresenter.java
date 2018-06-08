@@ -23,8 +23,7 @@ public class MainPresenter extends BasePresenter<MainActivity> {
     //https://api.coinmarketcap.com/v2/ticker/?limit=10
     public void onCreate(Bundle savedInstanceState) {
         try {
-            mCoinRepository = getRepository(CoinRepository.class);
-
+            mCoinRepository = getAssignRepository(CoinRepository.class);
             mvpView.onInitView();
             startIndex = 1;
             loadMoreCoinData();
