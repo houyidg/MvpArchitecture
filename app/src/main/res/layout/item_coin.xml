@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/llBp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    android:background="@color/colorAccent"
-    android:orientation="vertical"
-    android:padding="10dp">
+    android:layout_margin="5dp"
+    app:cardCornerRadius="10dp"
+    >
+<LinearLayout
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -35,15 +39,22 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/tvDate"
+            android:id="@+id/tv24Percent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="Light"
             android:text="--:--"
             android:textSize="13sp" />
-
         <TextView
-            android:id="@+id/tvBpValueUnit"
+            android:id="@+id/tvRank"
+            android:layout_marginLeft="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="Light"
+            android:text="--:--"
+            android:textSize="13sp" />
+        <TextView
+            android:id="@+id/tvMarketCap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -52,3 +63,4 @@
             android:textSize="13sp" />
     </RelativeLayout>
 </LinearLayout>
+</android.support.v7.widget.CardView>

@@ -4,13 +4,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.drrepositoryx.R;
 import com.drrepositoryx.base.view.BaseActivity;
 import com.drrepositoryx.main.model.CoinModel;
 import com.drrepositoryx.main.model.FailModel;
-import com.drrepositoryx.main.util.DateUtils;
 import com.drrepositoryx.main.util.DividerItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -29,7 +29,7 @@ import butterknife.OnClick;
 /**
  *
  */
-public class MainActivity extends BaseActivity<MainPresenter> implements IMainView< List<CoinModel>, FailModel> {
+public class MainActivity extends BaseActivity<MainPresenter> implements IMainView<List<CoinModel>, FailModel>,RadioGroup.OnCheckedChangeListener {
     @BindView(R.id.pb_loading)
     ProgressBar pbLoading;
     @BindView(R.id.rv_list)
@@ -40,6 +40,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
     SmartRefreshLayout refreshLayout;
     CommonAdapter<CoinModel> commonAdapter;
     List<CoinModel> dataList = new ArrayList<>();
+    @BindView(R.id.rg_list)
+    RadioGroup rgList;
+
 
     @Override
     public void onInitView() {
@@ -62,13 +65,21 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
         commonAdapter = new CommonAdapter<CoinModel>(getContext(), R.layout.item_coin, dataList) {
             @Override
             protected void convert(ViewHolder holder, CoinModel coinModel, int position) {
+                double percent_change_24h = coinModel.getQuotes().getUSD().getPercent_change_24h();
+                boolean isUp24h = false;
+                if (percent_change_24h > 0) {
+                    isUp24h = true;
+                }
+                holder.setBackgroundRes(R.id.llBp, isUp24h ? R.color.green : R.color.red);
                 holder.setText(R.id.tvTitile, coinModel.getSymbol());
                 holder.setText(R.id.tvValue, "$" + coinModel.getQuotes().getUSD().getPrice());
-                holder.setText(R.id.tvDate, "update:" + DateUtils.getCustomDate(coinModel.getLast_updated())+"  24h change percent:"+coinModel.getQuotes().getUSD().getPercent_change_24h()+"%");
-                holder.setText(R.id.tvBpValueUnit, "rank:" + coinModel.getRank());
+                holder.setText(R.id.tv24Percent,  coinModel.getQuotes().getUSD().getPercent_change_24h() + "%");
+                holder.setText(R.id.tvRank, "rank:" + coinModel.getRank());
+                holder.setText(R.id.tvMarketCap, "market cap: $" + coinModel.getQuotes().getUSD().getMarket_cap());
             }
         };
         rvList.setAdapter(commonAdapter);
+        rgList.setOnCheckedChangeListener(this);
     }
 
 
@@ -88,17 +99,18 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
 
     /**
      * id
+     *
      * @param id
      */
-    public void showSelectView(int id){
-        tvReload.setVisibility(id==tvReload.getId()?View.VISIBLE:View.GONE);
-        refreshLayout.setVisibility(id==refreshLayout.getId()?View.VISIBLE:View.GONE);
-        pbLoading.setVisibility(id==pbLoading.getId()?View.VISIBLE:View.GONE);
+    public void showSelectView(int id) {
+        tvReload.setVisibility(id == tvReload.getId() ? View.VISIBLE : View.GONE);
+        refreshLayout.setVisibility(id == refreshLayout.getId() ? View.VISIBLE : View.GONE);
+        pbLoading.setVisibility(id == pbLoading.getId() ? View.VISIBLE : View.GONE);
     }
 
     @Override
-    public boolean onLoadDataFail(boolean isRefresh,FailModel data) {
-        if(isRefresh){
+    public boolean onLoadDataFail(boolean isRefresh, FailModel data) {
+        if (isRefresh) {
             showSelectView(R.id.tv_reload);
         }
 
@@ -123,5 +135,30 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
         showSelectView(R.id.pb_loading);
         mPresenter.reLoadCoinData();
     }
+
+    @Override
+    public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+        switch (checkedId){
+            case R.id.rb_id:{
+                mPresenter.setmSortType(MainPresenter.SortType.SortById);
+                break;
+            }
+            case R.id.rb_percent_change_24h:{
+                mPresenter.setmSortType(MainPresenter.SortType.SortBy24Percent);
+                break;
+            }
+            case R.id.rb_rank:{
+                mPresenter.setmSortType(MainPresenter.SortType.SortByRank);
+                break;
+            }
+            case R.id.rb_volume_24h:{
+                mPresenter.setmSortType(MainPresenter.SortType.SortByVolume24h);
+                break;
+            }
+        }
+        showSelectView(R.id.pb_loading);
+        mPresenter.reLoadCoinData();
+    }
+
     ///////////////////////////////默認初始化內容/////////////////////////////////////////
 }

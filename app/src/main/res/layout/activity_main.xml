@@ -16,21 +16,66 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
              />
-
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:id="@+id/refreshLayout"
-            android:visibility="gone"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_list"
+            android:layout_height="wrap_content">
+            <RadioGroup
+                android:id="@+id/rg_list"
+                android:padding="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:overScrollMode="never"
-                android:background="#fff"
-                />
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <RadioButton
+                    android:id="@+id/rb_id"
+                    android:checked="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="By id"
+                    android:singleLine="true"
+                    />
+                <RadioButton
+                    android:id="@+id/rb_rank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="By rank"
+                    android:singleLine="true"
+                    />
+                <RadioButton
+                    android:id="@+id/rb_volume_24h"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="By volume_24h"
+                    android:singleLine="true"
+                    />
+
+                <RadioButton
+                    android:ellipsize="end"
+                    android:id="@+id/rb_percent_change_24h"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="By percent_change_24h"
+                    android:singleLine="true"
+
+                    />
+            </RadioGroup>
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                android:id="@+id/refreshLayout"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never"
+                    android:background="#fff"
+                    />
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_reload"
