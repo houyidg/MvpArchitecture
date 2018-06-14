@@ -6,4 +6,8 @@ package com.drrepositoryx.base.datasource.param;
  */
 public class DbParams implements IBaseParams{
 
+    @Override
+    public String getTag() {
+        return null;
+    }
 }

@@ -15,6 +15,7 @@ import com.drrepositoryx.main.model.CoinModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -31,6 +32,7 @@ public class RemoteCoinDataSource implements IBaseDataSource<CoinModel, RequestP
     OKHttpUtil okHttpUtil;
     OkHttpClient requestQueue;
     private static String TAG = "RemoteCoinDataSource";
+    private Map<String,Call> callMap = new HashMap<>();
 
     public RemoteCoinDataSource() {
         okHttpUtil = OKHttpUtil.init();
@@ -39,36 +41,7 @@ public class RemoteCoinDataSource implements IBaseDataSource<CoinModel, RequestP
 
     @Override
     public void getDatas(RequestParams<String> params, @NonNull final ILoadDatasCallback<CoinModel> callback) {
-        Request.Builder requestBuilder = new Request.Builder();
-        //url
-        String url = params.getUrl();
-        //urlparameter
-        String parameters = params.getUrlParameters();
-        if (parameters != null)
-            url += "?" + parameters;
-
-        requestBuilder.url(url);
-        //header
-        Map<String, String> headers = params.getHeaders();
-        Set<Map.Entry<String, String>> entries = headers.entrySet();
-        for (Map.Entry<String, String> entry : entries) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-            requestBuilder.addHeader(key, value);
-        }
-        //method body
-        RequestParams.TYPE method = params.getMethod();
-        requestBuilder = getRequestBuildByMethod(method, requestBuilder, params.getContent());
-
-        //needCache
-//        boolean needCache = params.isNeedCache();
-//        if(needCache){
-//            CacheControl cacheControl;
-//            cacheControl = new CacheControl(new CacheControl.Builder().noStore());
-//            requestBuilder.cacheControl(cacheControl);
-//        }
-
-        Call newCall = requestQueue.newCall(requestBuilder.build());
+        Call newCall = getCall(params);
         newCall.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -111,6 +84,33 @@ public class RemoteCoinDataSource implements IBaseDataSource<CoinModel, RequestP
                 }
             }
         });
+    }
+
+    private Call getCall(RequestParams<String> params) {
+        Request.Builder requestBuilder = new Request.Builder();
+        //url
+        String url = params.getUrl();
+        //urlparameter
+        String parameters = params.getUrlParameters();
+        if (parameters != null)
+            url += "?" + parameters;
+
+        requestBuilder.url(url);
+        //header
+        Map<String, String> headers = params.getHeaders();
+        Set<Map.Entry<String, String>> entries = headers.entrySet();
+        for (Map.Entry<String, String> entry : entries) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            requestBuilder.addHeader(key, value);
+        }
+        //method body
+        RequestParams.TYPE method = params.getMethod();
+        requestBuilder = getRequestBuildByMethod(method, requestBuilder, params.getContent());
+
+        Call newCall = requestQueue.newCall(requestBuilder.build());
+        callMap.put(params.getTag(),newCall);
+        return newCall;
     }
 
     private Request.Builder getRequestBuildByMethod(RequestParams.TYPE method, Request.Builder requestBuilder, String content) {
@@ -156,5 +156,14 @@ public class RemoteCoinDataSource implements IBaseDataSource<CoinModel, RequestP
     @Override
     public void removeData(CoinModel data) {
 
+    }
+
+    @Override
+    public boolean cancelByTag(String tag) {
+        Call call = callMap.get(tag);
+        if(call!=null && !call.isCanceled()){
+            call.cancel();
+        }
+        return true;
     }
 }

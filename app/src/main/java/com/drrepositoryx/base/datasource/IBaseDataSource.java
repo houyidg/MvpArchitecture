@@ -17,4 +17,6 @@ public interface IBaseDataSource<T,P extends IBaseParams> {
     void updateData(T data);
 
     void removeData(T data);
+
+    boolean cancelByTag(String tag);
 }

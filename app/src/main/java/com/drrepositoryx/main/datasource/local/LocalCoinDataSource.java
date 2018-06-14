@@ -35,4 +35,9 @@ public class LocalCoinDataSource implements IBaseDataSource<CoinModel,DbParams> 
     public void removeData(CoinModel data) {
 
     }
+
+    @Override
+    public boolean cancelByTag(String tag) {
+        return false;
+    }
 }

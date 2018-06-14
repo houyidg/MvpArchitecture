@@ -14,6 +14,15 @@ public class RequestParams<T extends Object> implements IBaseParams {
         PUT,
         DELETE
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+    String url;
+    RequestParams.TYPE method;
+    Map<String, String> urlParameters;
+    Map<String, String> headers;
+    static Map<String, String> commonHeaders=new HashMap<>();
+
+    T content;
+    boolean needCache;
 
     public String getUrl() {
         return url;
@@ -38,7 +47,20 @@ public class RequestParams<T extends Object> implements IBaseParams {
         return parameter;
     }
 
+    public static void addParamsToCommonHeader(String key,String value){
+        commonHeaders.put(key,value);
+    }
+    public static void removeParamsToCommonHeader(String key){
+        commonHeaders.remove(key);
+    }
+
+    public static void setCommonHeader( Map<String, String> headers){
+        if(headers!=null)
+        commonHeaders = headers;
+    }
+
     public Map<String, String> getHeaders() {
+        headers.putAll(commonHeaders);
         return headers;
     }
 
@@ -50,12 +72,6 @@ public class RequestParams<T extends Object> implements IBaseParams {
         return needCache;
     }
 
-    String url;
-    RequestParams.TYPE method;
-    Map<String, String> urlParameters;
-    Map<String, String> headers;
-    T content;
-    boolean needCache;
 
     public RequestParams(String url, RequestParams.TYPE method) {
         this.url = url;
@@ -100,5 +116,10 @@ public class RequestParams<T extends Object> implements IBaseParams {
     public RequestParams setNeedCache(boolean needCache) {
         this.needCache = needCache;
         return this;
+    }
+
+    @Override
+    public String getTag() {
+        return url;
     }
 }
