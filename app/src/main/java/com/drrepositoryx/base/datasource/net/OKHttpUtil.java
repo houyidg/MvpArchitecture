@@ -1,6 +1,5 @@
 package com.drrepositoryx.base.datasource.net;
 
-import android.app.Application;
 import android.content.Context;
 
 import com.drrepositoryx.base.MyApplication;
@@ -9,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
 
 
 /**
@@ -21,12 +19,11 @@ public class OKHttpUtil {
     private static final int HTTP_CACHE = 10 * 1024 * 1024;
     static volatile OKHttpUtil mOKHttpUtil = null;
     static Context mContext;
-
-    OkHttpClient mRequestQueue;
+    OkHttpClient okHttpClient;
 
     private OKHttpUtil(Context context) {
         mContext = context;
-        mRequestQueue = new OkHttpClient.Builder()
+        okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
@@ -45,8 +42,8 @@ public class OKHttpUtil {
         return mOKHttpUtil;
     }
 
-    public OkHttpClient getRequestQueue(){
+    public OkHttpClient getOkHttpClient(){
         init();
-        return mRequestQueue;
+        return okHttpClient;
     }
 }

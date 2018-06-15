@@ -1,6 +1,8 @@
-package com.drrepositoryx.base.datasource;
+package com.drrepositoryx.base.datasource.manager;
 
 import android.support.v4.util.ArrayMap;
+
+import com.drrepositoryx.base.datasource.IBaseRepository;
 
 import java.lang.ref.SoftReference;
 

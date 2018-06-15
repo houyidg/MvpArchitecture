@@ -3,7 +3,7 @@ package com.drrepositoryx.main;
 import android.os.Bundle;
 
 import com.drrepositoryx.base.datasource.IBaseRepository;
-import com.drrepositoryx.base.datasource.callback.ILoadDatasCallback;
+import com.drrepositoryx.base.datasource.callback.ILoadDataCallback;
 import com.drrepositoryx.base.presenter.BasePresenter;
 import com.drrepositoryx.main.datasource.CoinRepository;
 import com.drrepositoryx.base.datasource.param.RequestParams;
@@ -58,9 +58,9 @@ public class MainPresenter extends BasePresenter<MainActivity> {
         requestParams.addUrlParameter("limit", pageCount+"");
         requestParams.addUrlParameter("start", startIndex+"");
         requestParams.addUrlParameter("sort", mSortType.value);
-        mCoinRepository.getDatasByRemote(requestParams, new ILoadDatasCallback<CoinModel>() {
+        mCoinRepository.getDatasByRemote(requestParams, new ILoadDataCallback<List<CoinModel>>() {
             @Override
-            public void onDatasLoaded(List<CoinModel> dataList) {
+            public void onDataLoaded(List<CoinModel> dataList) {
                 if (isViewAttached()){
                     boolean isRefresh = startIndex==1;
                     mvpView.onLoadDataSuccess(isRefresh,dataList);

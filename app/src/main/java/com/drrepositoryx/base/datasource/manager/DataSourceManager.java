@@ -1,6 +1,9 @@
-package com.drrepositoryx.base.datasource;
+package com.drrepositoryx.base.datasource.manager;
 
 import android.support.v4.util.ArrayMap;
+
+import com.drrepositoryx.base.datasource.IBaseDataSource;
+import com.drrepositoryx.main.datasource.remote.IRemoteCoinDataSource;
 
 import java.lang.ref.SoftReference;
 

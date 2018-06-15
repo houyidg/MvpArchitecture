@@ -14,9 +14,14 @@ public class RequestParams<T extends Object> implements IBaseParams {
         PUT,
         DELETE
     }
+    public enum Priority{
+        FIRST,
+        GENERAL
+    }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
     String url;
     RequestParams.TYPE method;
+    Priority priority = Priority.GENERAL;
     Map<String, String> urlParameters;
     Map<String, String> headers;
     static Map<String, String> commonHeaders=new HashMap<>();
@@ -45,6 +50,13 @@ public class RequestParams<T extends Object> implements IBaseParams {
             }
         }
         return parameter;
+    }
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
     }
 
     public static void addParamsToCommonHeader(String key,String value){

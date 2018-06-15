@@ -2,7 +2,7 @@ package com.drrepositoryx.base.presenter;
 
 
 import com.drrepositoryx.base.datasource.IBaseRepository;
-import com.drrepositoryx.base.datasource.RepositoryManager;
+import com.drrepositoryx.base.datasource.manager.RepositoryManager;
 import com.drrepositoryx.base.view.IBaseView;
 
 

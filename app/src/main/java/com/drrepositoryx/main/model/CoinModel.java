@@ -1,6 +1,6 @@
 package com.drrepositoryx.main.model;
 
-public class CoinModel {
+public class CoinModel extends BaseModel{
 
     /**
      * id : 1
