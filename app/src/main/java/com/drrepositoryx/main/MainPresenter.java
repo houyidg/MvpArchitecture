@@ -16,24 +16,19 @@ import java.util.List;
  * presenter驱动ui执行
  */
 public class MainPresenter extends BasePresenter<MainActivity> {
-    IBaseRepository mCoinRepository;
-    String url = "https://api.coinmarketcap.com/v2/ticker/";
-    int startIndex = 1;
-    int pageCount = 10;
-
-    public void setmSortType(SortType mSortType) {
-        this.mSortType = mSortType;
-    }
-
-    SortType mSortType = SortType.SortById;
     enum SortType{
         SortById("id"),SortByRank("rank"),SortBy24Percent("percent_change_24h"),SortByVolume24h("volume_24h");
         private  String value;
         SortType(String value){
             this.value = value;
         }
-
     }
+    IBaseRepository mCoinRepository;
+    String url = "https://api.coinmarketcap.com/v2/ticker/";
+    int startIndex = 1;
+    int pageCount = 10;
+    SortType mSortType = SortType.SortById;
+
     //https://api.coinmarketcap.com/v2/ticker/?limit=10
     public void onCreate(Bundle savedInstanceState) {
         try {
@@ -75,6 +70,9 @@ public class MainPresenter extends BasePresenter<MainActivity> {
                 }
             }
         });
+    }
+    public void setmSortType(SortType mSortType) {
+        this.mSortType = mSortType;
     }
 
     @Override

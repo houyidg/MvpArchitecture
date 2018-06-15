@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import com.drrepositoryx.base.presenter.IBasePresenter;
 
 /**
- *
  * @param <P> presenter泛型
  */
 public abstract class BaseActivity<P extends IBasePresenter> extends AppCompatActivity implements IBaseView<P> {
